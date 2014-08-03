@@ -1,0 +1,79 @@
+﻿@model SearchableZoo.Models.ViewModels.Keepers.IndexModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Keepers</h2>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <p class="text-right">
+            <a class="btn btn-primary" href="@Url.Action("new")">
+                <i class="glyphicon glyphicon-plus-sign"></i>
+                New
+            </a>
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("index", "keepers", FormMethod.Get, new { @class = "" }))
+        {
+            <div class="input-group">
+                @Html.TextBox("Query", Model.Search.Query, new { placeholder = "search for keeper...", @class = "form-control" })
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="glyphicon glyphicon-search"></i>
+                        Search
+                    </button>
+                </span>
+            </div>
+            <br />
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Sex</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var keeper in Model.Keepers)
+                {
+                    <tr>
+                        <td>@keeper.KeeperId</td>
+                        <td>@keeper.FirstName</td>
+                        <td>@keeper.LastName</td>
+                        <td>@keeper.Sex</td>
+                        <td>
+                            <a class="btn btn-primary" href="@Url.Action("edit", new { id = keeper.KeeperId })">
+                                Edit
+                            </a>
+                            @using (Html.BeginForm("destroy", "keepers", new { id = keeper.KeeperId }, FormMethod.Post, new { style = "display: inline-block" }))
+                            {
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </button>
+                                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

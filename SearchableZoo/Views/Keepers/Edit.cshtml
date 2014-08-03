@@ -1,0 +1,13 @@
+﻿@model SearchableZoo.Models.ViewModels.Keepers.EditModel
+@{
+    ViewBag.Title = "New";
+}
+
+<h2>Keepers > New</h2>
+
+@using (Html.BeginForm("update", "keepers"))
+{
+    @Html.Partial("_Edit")
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+}
+
